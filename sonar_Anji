@@ -1,0 +1,18 @@
+node{
+// demo
+   stage('SCM Checkout'){
+     git 'https://github.com/javahometech/my-app'
+   }
+   stage('Compile-Package'){
+      // Get maven home path
+      def mvnHome =  tool name: 'Maven', type: 'maven'   
+      sh "${mvnHome}C:\apache-maven-3.9.6-bin\apache-maven-3.9.6\bin"
+   }
+   
+   stage('SonarQube Analysis') {
+        def mvnHome =  tool name: 'Maven', type: 'maven'
+        withSonarQubeEnv('jenkins_sonar') { 
+          sh "${mvnHome}C:\apache-maven-3.9.6-bin\apache-maven-3.9.6\bin sonar:sonar"
+        }
+    }
+}
